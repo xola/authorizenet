@@ -4,9 +4,6 @@ namespace Omnipay\AuthorizeNet;
 
 use Omnipay\Tests\TestCase;
 use Guzzle\Http\Client;
-use Guzzle\Log\MessageFormatter;
-use Guzzle\Log\PsrLogAdapter;
-use Guzzle\Plugin\Log\LogPlugin;
 
 /**
  * Integration tests for the CIM Gateway. These tests make real requests to Authorize.NET sandbox environment.
@@ -30,20 +27,9 @@ class CIMGatewayIntegrationTest extends TestCase
 
         $apiLoginId = getenv('AUTHORIZE_NET_API_LOGIN_ID');
         $transactionKey = getenv('AUTHORIZE_NET_TRANSACTION_KEY');
-//        //todo: Remove this before final commit
-        $apiLoginId = '3wM8sJ9qR';
-        $transactionKey = '3K2e3z44EKz3g326';
 
         if ($apiLoginId && $transactionKey) {
-
-            $logger = new \Monolog\Logger('authorizenet_cim');
-            $logger->pushHandler(new \Monolog\Handler\StreamHandler('/var/log/php/debug.log', \Monolog\Logger::DEBUG));
-            $logger->pushHandler(new \Monolog\Handler\FirePHPHandler());
-            $adapter = new PsrLogAdapter($logger);
-            $logPlugin = new LogPlugin($adapter, MessageFormatter::DEBUG_FORMAT);
-
             $client = new Client();
-            $client->addSubscriber($logPlugin);
 
             $this->gateway = new CIMGateway($client, $this->getHttpRequest());
             $this->gateway->setDeveloperMode(true);
