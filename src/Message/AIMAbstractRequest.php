@@ -98,9 +98,12 @@ abstract class AIMAbstractRequest extends AbstractRequest
         $req = $data->transactionRequest;
 
         // Merchant assigned customer ID
-        $customer = $this->getCustomerId();
-        if (!empty($customer)) {
-            $req->customer->id = $customer;
+        if (!empty($this->getCustomerId())) {
+            $req->customer->id = $this->getCustomerId();
+        }
+
+        if (!empty($this->getEmail())) {
+            $req->customer->email = $this->getEmail();
         }
 
         /** @var CreditCard $card */
