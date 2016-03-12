@@ -93,4 +93,21 @@ class AIMGatewayIntegrationTest extends TestCase
         $response = $request->send();
         $this->assertTrue($response->isSuccessful(), 'Automatic void should succeed');
     }
+
+    public function testPurchaseCardPresent()
+    {
+        $amount = rand(10, 100) . '.' . rand(0, 99);
+        $card = array(
+            'number' => '4242424242424242',
+            'expiryMonth' => rand(1, 12),
+            'expiryYear' => gmdate('Y') + rand(1, 5),
+            'tracks' => '%B4242424242424242^SMITH/JOHN ^2511126100000000000000444000000?;4242424242424242=25111269999944401?'
+        );
+        $request = $this->gateway->purchase(array(
+            'amount' => $amount,
+            'card' => $card
+        ));
+        $response = $request->send();
+        $this->assertTrue($response->isSuccessful());
+    }
 }

@@ -34,6 +34,8 @@ class AIMAuthorizeRequestTest extends TestCase
         $setting = $data->transactionRequest->transactionSettings->setting[0];
         $this->assertEquals('testRequest', $setting->settingName);
         $this->assertEquals('false', $setting->settingValue);
+        $this->assertObjectNotHasAttribute('trackData', $data->transactionRequest->payment);
+        $this->assertObjectNotHasAttribute('retail', $data->transactionRequest);
     }
 
     public function testGetDataTestMode()
@@ -51,5 +53,45 @@ class AIMAuthorizeRequestTest extends TestCase
     {
         $data = $this->request->getData();
         $this->assertEquals('x_duplicate_window=0', strip_tags($data->extraOptions));
+    }
+
+    public function testGetDataCardPresentTrack1()
+    {
+        $card = $this->getValidCard();
+        $card['tracks'] = '%B4242424242424242^SMITH/JOHN ^2511126100000000000000444000000?;4242424242424242=25111269999944401?';
+        $this->request->initialize(array(
+            'amount' => '12.12',
+            'card' => $card
+        ));
+
+        $data = $this->request->getData();
+
+        $this->assertEquals('12.12', $data->transactionRequest->amount);
+        $this->assertEquals(
+            '%B4242424242424242^SMITH/JOHN ^2511126100000000000000444000000?',
+            $data->transactionRequest->payment->trackData->track1);
+        $this->assertObjectNotHasAttribute('creditCard', $data->transactionRequest->payment);
+        $this->assertEquals('2', $data->transactionRequest->retail->marketType);
+        $this->assertEquals('1', $data->transactionRequest->retail->deviceType);
+    }
+
+    public function testGetDataCardPresentTrack2()
+    {
+        $card = $this->getValidCard();
+        $card['tracks'] = ';4242424242424242=25111269999944401?';
+        $this->request->initialize(array(
+            'amount' => '12.12',
+            'card' => $card
+        ));
+
+        $data = $this->request->getData();
+
+        $this->assertEquals('12.12', $data->transactionRequest->amount);
+        $this->assertEquals(
+            ';4242424242424242=25111269999944401?',
+            $data->transactionRequest->payment->trackData->track2);
+        $this->assertObjectNotHasAttribute('creditCard', $data->transactionRequest->payment);
+        $this->assertEquals('2', $data->transactionRequest->retail->marketType);
+        $this->assertEquals('1', $data->transactionRequest->retail->deviceType);
     }
 }

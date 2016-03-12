@@ -34,7 +34,7 @@
         "psr-4": { "Omnipay\\AuthorizeNet\\" : "src/" }
     },
     "require": {
-        "omnipay/common": "~2.4.2"
+        "omnipay/common": "~2.4.3"
     },
     "require-dev": {
         "omnipay/tests": "~2.0"
