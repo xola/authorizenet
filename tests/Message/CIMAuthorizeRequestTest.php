@@ -38,4 +38,19 @@ class CIMAuthorizeRequestTest extends TestCase
         $data = $this->request->getData();
         $this->assertEquals('x_duplicate_window=0', strip_tags($data->extraOptions));
     }
+
+    public function testShouldUseTrackDataIfCardPresent()
+    {
+        $card = $this->getValidCard();
+        $card['tracks'] = '%B4242424242424242^SMITH/JOHN ^2511126100000000000000444000000?;4242424242424242=25111269999944401?';
+        $this->request->initialize(array(
+            'card' => $card,
+            'amount' => 21.00
+        ));
+
+        $data = $this->request->getData();
+
+        $this->assertObjectNotHasAttribute('profile', $data->transactionRequest);
+        $this->assertObjectHasAttribute('trackData', $data->transactionRequest->payment);
+    }
 }

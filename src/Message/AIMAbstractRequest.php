@@ -255,4 +255,10 @@ abstract class AIMAbstractRequest extends AbstractRequest
         }
         return $data;
     }
+
+    protected function isCardPresent()
+    {
+        // If the credit card has track data, then consider this a "card present" scenario
+        return ($card = $this->getCard()) && $card->getTracks();
+    }
 }

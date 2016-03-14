@@ -57,7 +57,7 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
 
     protected function addRetail(\SimpleXMLElement $data)
     {
-        if ($this->getCard()->getTracks()) {
+        if ($this->isCardPresent()) {
             // Retail element is required for card present transactions
             $data->transactionRequest->retail->marketType = 2;
             $data->transactionRequest->retail->deviceType = 1;
