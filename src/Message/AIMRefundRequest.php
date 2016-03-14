@@ -38,11 +38,13 @@ class AIMRefundRequest extends AIMAbstractRequest
             $this->validate('card');
             $card = $this->getCard();
             $data->transactionRequest->payment->creditCard->cardNumber = $card->getNumberLastFour();
-            $data->transactionRequest->payment->creditCard->expirationDate = $card->getExpiryDate('my');
+            if ($card->getExpiryMonth()) {
+                $data->transactionRequest->payment->creditCard->expirationDate = $card->getExpiryDate('my');
+            }
         }
         $data->transactionRequest->refTransId = $transactionRef->getTransId();
 
-        $this->addTestModeSetting($data);
+        $this->addTransactionSettings($data);
 
         return $data;
     }
