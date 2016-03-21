@@ -9,7 +9,7 @@ use Omnipay\Common\CreditCard;
  */
 class CIMUpdatePaymentProfileRequest extends CIMCreatePaymentProfileRequest
 {
-    protected $xmlRootElement = 'updateCustomerPaymentProfileRequest';
+    protected $requestType = 'updateCustomerPaymentProfileRequest';
 
     public function getData()
     {
@@ -22,7 +22,7 @@ class CIMUpdatePaymentProfileRequest extends CIMCreatePaymentProfileRequest
         $data = $this->getBaseData();
         $data->customerProfileId = $this->getCustomerProfileId();
         $this->addPaymentProfileData($data);
-        $this->addTestModeSetting($data);
+        $this->addTransactionSettings($data);
 
         return $data;
     }

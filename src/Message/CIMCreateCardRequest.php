@@ -7,9 +7,9 @@ use Omnipay\Common\CreditCard;
 /**
  * Create Credit Card Request.
  */
-class CIMCreateCardRequest extends CIMAbstractCustomerProfileRequest
+class CIMCreateCardRequest extends CIMAbstractRequest
 {
-    protected $xmlRootElement = 'createCustomerProfileRequest';
+    protected $requestType = 'createCustomerProfileRequest';
 
     public function getData()
     {
@@ -21,7 +21,7 @@ class CIMCreateCardRequest extends CIMAbstractCustomerProfileRequest
 
         $data = $this->getBaseData();
         $this->addProfileData($data);
-        $this->addTestModeSetting($data);
+        $this->addTransactionSettings($data);
 
         return $data;
     }
@@ -39,17 +39,14 @@ class CIMCreateCardRequest extends CIMAbstractCustomerProfileRequest
         if (!empty($customer)) {
             $req->merchantCustomerId = $customer;
         }
-
         $description = $this->getDescription();
         if (!empty($description)) {
             $req->description = $description;
         }
-
         $email = $this->getEmail();
         if (!empty($email)) {
             $req->email = $email;
         }
-
         $this->addPaymentProfileData($req);
         $this->addShippingData($req);
     }
@@ -61,7 +58,6 @@ class CIMCreateCardRequest extends CIMAbstractCustomerProfileRequest
      */
     protected function addPaymentProfileData(\SimpleXMLElement $data)
     {
-        // This order is important. Payment profiles should come in this order only
         $req = $data->addChild('paymentProfiles');
         $this->addBillingData($req);
     }
@@ -147,7 +143,7 @@ class CIMCreateCardRequest extends CIMAbstractCustomerProfileRequest
         }
     }
 
-    protected function addTestModeSetting(\SimpleXMLElement $data)
+    protected function addTransactionSettings(\SimpleXMLElement $data)
     {
         $data->validationMode = $this->getValidationMode();
     }

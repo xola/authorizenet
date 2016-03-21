@@ -13,26 +13,33 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
 
     public function getData()
     {
-        $this->validate('amount', 'card');
+        $this->validate('amount');
+        $data = $this->getBaseData();
+        $data->transactionRequest->amount = $this->getAmount();
+        $this->addPayment($data);
+        $this->addCustomerIP($data);
+        $this->addBillingData($data);
+        $this->addTransactionSettings($data);
 
+        return $data;
+    }
+
+    protected function addPayment(\SimpleXMLElement $data)
+    {
+        $this->validate('card');
         /** @var CreditCard $card */
         $card = $this->getCard();
         $card->validate();
-
-        $data = $this->getBaseData();
-        $data->transactionRequest->amount = $this->getAmount();
         $data->transactionRequest->payment->creditCard->cardNumber = $card->getNumber();
         $data->transactionRequest->payment->creditCard->expirationDate = $card->getExpiryDate('my');
         $data->transactionRequest->payment->creditCard->cardCode = $card->getCvv();
+    }
+
+    protected function addCustomerIP(\SimpleXMLElement $data)
+    {
         $ip = $this->getClientIp();
         if (!empty($ip)) {
             $data->transactionRequest->customerIP = $ip;
         }
-
-        $this->addBillingData($data);
-        $this->addTestModeSetting($data);
-        $this->addExtraOptions($data);
-
-        return $data;
     }
 }
