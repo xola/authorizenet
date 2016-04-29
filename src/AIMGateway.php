@@ -28,6 +28,7 @@ class AIMGateway extends AbstractGateway
             'developerMode'     => false,
             'liveEndpoint'      => 'https://api.authorize.net/xml/v1/request.api',
             'developerEndpoint' => 'https://apitest.authorize.net/xml/v1/request.api',
+            'deviceType'        => 1 // Device used to make the transaction. Required for card present. "1" = Unknown.
         );
     }
 
@@ -95,6 +96,35 @@ class AIMGateway extends AbstractGateway
     public function setDuplicateWindow($value)
     {
         return $this->setParameter('duplicateWindow', $value);
+    }
+
+    public function getDeviceType()
+    {
+        return $this->getParameter('deviceType');
+    }
+
+    /**
+     * Sets the type of device used to collect the credit card data. A device type is required for card present
+     * transactions.
+     *
+     * 1 = Unknown
+     * 2 = Unattended Terminal
+     * 3 = Self Service Terminal
+     * 4 = Electronic Cash Register
+     * 5 = Personal Computer-Based Terminal
+     * 6 = AirPay
+     * 7 = Wireless POS
+     * 8 = Website
+     * 9 = Dial Terminal
+     * 10 = Virtual Terminal
+     *
+     * @see http://developer.authorize.net/api/reference/#payment-transactions-charge-a-credit-card
+     * @param $value
+     * @return $this
+     */
+    public function setDeviceType($value)
+    {
+        return $this->setParameter('deviceType', $value);
     }
 
     /**

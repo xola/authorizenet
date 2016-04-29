@@ -63,7 +63,8 @@ class AIMAuthorizeRequestTest extends TestCase
         $card['tracks'] = '%B4242424242424242^SMITH/JOHN ^2511126100000000000000444000000?;4242424242424242=25111269999944401?';
         $this->request->initialize(array(
             'amount' => '12.12',
-            'card' => $card
+            'card' => $card,
+            'deviceType' => 1
         ));
 
         $data = $this->request->getData();
@@ -83,7 +84,8 @@ class AIMAuthorizeRequestTest extends TestCase
         $card['tracks'] = ';4242424242424242=25111269999944401?';
         $this->request->initialize(array(
             'amount' => '12.12',
-            'card' => $card
+            'card' => $card,
+            'deviceType' => 1
         ));
 
         $data = $this->request->getData();

@@ -59,7 +59,7 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
         if ($this->isCardPresent()) {
             // Retail element is required for card present transactions
             $data->transactionRequest->retail->marketType = 2;
-            $data->transactionRequest->retail->deviceType = 1;
+            $data->transactionRequest->retail->deviceType = $this->getDeviceType();
         }
     }
 }
