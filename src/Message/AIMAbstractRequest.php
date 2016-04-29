@@ -100,6 +100,16 @@ abstract class AIMAbstractRequest extends AbstractRequest
         return $this->getDeveloperMode() ? $this->getDeveloperEndpoint() : $this->getLiveEndpoint();
     }
 
+    public function getDeviceType()
+    {
+        return $this->getParameter('deviceType');
+    }
+
+    public function setDeviceType($value)
+    {
+        return $this->setParameter('deviceType', $value);
+    }
+
     /**
      * @return TransactionReference
      */
