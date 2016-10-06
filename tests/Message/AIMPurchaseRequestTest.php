@@ -18,6 +18,7 @@ class AIMPurchaseRequestTest extends TestCase
                 'amount' => '12.00',
                 'customerId' => 'cust-id',
                 'card' => $this->getValidCard(),
+                'solutionId' => 'AAA100302',
             )
         );
     }
@@ -29,6 +30,7 @@ class AIMPurchaseRequestTest extends TestCase
         $this->assertEquals('authCaptureTransaction', $data->transactionRequest->transactionType);
         $this->assertEquals('10.0.0.1', $data->transactionRequest->customerIP);
         $this->assertEquals('cust-id', $data->transactionRequest->customer->id);
+        $this->assertEquals('AAA100302', $data->transactionRequest->solution->id);
 
         $setting = $data->transactionRequest->transactionSettings->setting[0];
         $this->assertEquals('testRequest', $setting->settingName);

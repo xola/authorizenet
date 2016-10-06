@@ -24,6 +24,7 @@ class AIMGateway extends AbstractGateway
         return array(
             'apiLoginId'        => '',
             'transactionKey'    => '',
+            'solutionId'        => '',
             'testMode'          => false,
             'developerMode'     => false,
             'liveEndpoint'      => 'https://api.authorize.net/xml/v1/request.api',
@@ -101,6 +102,16 @@ class AIMGateway extends AbstractGateway
     public function getDeviceType()
     {
         return $this->getParameter('deviceType');
+    }
+
+    public function setSolutionId($value)
+    {
+        return $this->setParameter('solutionId', $value);
+    }
+
+    public function getSolutionId()
+    {
+        return $this->getParameter('solutionId');
     }
 
     /**

@@ -17,6 +17,8 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
         $data = $this->getBaseData();
         $data->transactionRequest->amount = $this->getAmount();
         $this->addPayment($data);
+        $this->addSolutionId($data);
+        $this->addDescription($data);
         $this->addCustomerIP($data);
         $this->addBillingData($data);
         $this->addRetail($data);
@@ -43,6 +45,17 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
             $data->transactionRequest->payment->creditCard->cardNumber = $card->getNumber();
             $data->transactionRequest->payment->creditCard->expirationDate = $card->getExpiryDate('my');
             $data->transactionRequest->payment->creditCard->cardCode = $card->getCvv();
+        }
+    }
+
+    protected function addDescription(\SimpleXMLElement $data)
+    {
+        /** @var mixed $req */
+        $req = $data->transactionRequest;
+
+        $description = $this->getDescription();
+        if (!empty($description)) {
+            $req->order->description = $description;
         }
     }
 
