@@ -36,6 +36,16 @@ abstract class AIMAbstractRequest extends AbstractRequest
         return $this->setParameter('transactionKey', $value);
     }
 
+    public function getSolutionId()
+    {
+        return $this->getParameter('solutionId');
+    }
+
+    public function setSolutionId($value)
+    {
+        return $this->setParameter('solutionId', $value);
+    }
+
     public function getDeveloperMode()
     {
         return $this->getParameter('developerMode');
@@ -200,6 +210,17 @@ abstract class AIMAbstractRequest extends AbstractRequest
             throw new InvalidRequestException();
         }
         $data->transactionRequest->transactionType = $this->action;
+    }
+
+    protected function addSolutionId(\SimpleXMLElement $data)
+    {
+        /** @var mixed $req */
+        $req = $data->transactionRequest;
+
+        $solution = $this->getSolutionId();
+        if (!empty($solution)) {
+            $req->solution->id = $solution;
+        }
     }
 
     /**

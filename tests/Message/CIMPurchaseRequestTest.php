@@ -16,7 +16,8 @@ class CIMPurchaseRequestTest extends TestCase
             array(
                 'cardReference' => '{"customerProfileId":"28972085","customerPaymentProfileId":"26317841","customerShippingAddressId":"27057151"}',
                 'amount' => '12.00',
-                'description' => 'Test purchase transaction'
+                'description' => 'Test purchase transaction',
+                'solutionId' => 'AAA100302',
             )
         );
     }
@@ -29,5 +30,6 @@ class CIMPurchaseRequestTest extends TestCase
         $this->assertEquals('26317841', $data->transactionRequest->profile->paymentProfile->paymentProfileId);
         $this->assertEquals('27057151', $data->transactionRequest->profile->shippingProfileId);
         $this->assertEquals('Test purchase transaction', $data->transactionRequest->order->description);
+        $this->assertEquals('AAA100302', $data->transactionRequest->solution->id);
     }
 }

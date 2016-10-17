@@ -28,11 +28,6 @@ class CIMAuthorizeRequest extends AIMAuthorizeRequest
                 $req->profile->shippingProfileId = $shippingProfileId;
             }
 
-            $desc = $this->getDescription();
-            if (!empty($desc)) {
-                $req->order->description = $desc;
-            }
-
             return $data;
         }
 

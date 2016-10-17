@@ -34,6 +34,16 @@ abstract class SIMAbstractRequest extends AbstractRequest
         return $this->setParameter('transactionKey', $value);
     }
 
+    public function getSolutionId()
+    {
+        return $this->getParameter('solutionId');
+    }
+
+    public function setSolutionId($value)
+    {
+        return $this->setParameter('solutionId', $value);
+    }
+
     public function getDeveloperMode()
     {
         return $this->getParameter('developerMode');
