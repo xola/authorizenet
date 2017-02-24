@@ -19,7 +19,6 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
         $this->addPayment($data);
         $this->addSolutionId($data);
         $this->addDescription($data);
-        $this->addCustomerIP($data);
         $this->addBillingData($data);
         $this->addRetail($data);
         $this->addTransactionSettings($data);
@@ -56,14 +55,6 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
         $description = $this->getDescription();
         if (!empty($description)) {
             $req->order->description = $description;
-        }
-    }
-
-    protected function addCustomerIP(\SimpleXMLElement $data)
-    {
-        $ip = $this->getClientIp();
-        if (!empty($ip)) {
-            $data->transactionRequest->customerIP = $ip;
         }
     }
 

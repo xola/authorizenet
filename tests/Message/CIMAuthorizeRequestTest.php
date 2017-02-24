@@ -16,7 +16,8 @@ class CIMAuthorizeRequestTest extends TestCase
             array(
                 'cardReference' => '{"customerProfileId":"28972085","customerPaymentProfileId":"26317841","customerShippingAddressId":"27057151"}',
                 'amount' => '12.00',
-                'description' => 'Test authorize transaction'
+                'description' => 'Test authorize transaction',
+                'clientIp' => '10.0.0.1'
             )
         );
     }
@@ -26,6 +27,7 @@ class CIMAuthorizeRequestTest extends TestCase
         $data = $this->request->getData();
 
         $this->assertEquals('12.00', $data->transactionRequest->amount);
+        $this->assertEquals('10.0.0.1', $data->transactionRequest->customerIP);
         $this->assertEquals('28972085', $data->transactionRequest->profile->customerProfileId);
         $this->assertEquals('26317841', $data->transactionRequest->profile->paymentProfile->paymentProfileId);
         $this->assertEquals('27057151', $data->transactionRequest->profile->shippingProfileId);
@@ -38,12 +40,14 @@ class CIMAuthorizeRequestTest extends TestCase
         $card['tracks'] = '%B4242424242424242^SMITH/JOHN ^2511126100000000000000444000000?;4242424242424242=25111269999944401?';
         $this->request->initialize(array(
             'card' => $card,
-            'amount' => 21.00
+            'amount' => 21.00,
+            'clientIp' => '10.0.0.1'
         ));
 
         $data = $this->request->getData();
 
         $this->assertObjectNotHasAttribute('profile', $data->transactionRequest);
+        $this->assertObjectNotHasAttribute('customerIP', $data->transactionRequest, 'should not set IP for card present');
         $this->assertObjectHasAttribute('trackData', $data->transactionRequest->payment);
     }
 }

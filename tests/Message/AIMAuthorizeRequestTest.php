@@ -28,12 +28,12 @@ class AIMAuthorizeRequestTest extends TestCase
         $data = $this->request->getData();
 
         $this->assertEquals('authOnlyTransaction', $data->transactionRequest->transactionType);
-        $this->assertEquals('10.0.0.1', $data->transactionRequest->customerIP);
         $this->assertEquals('cust-id', $data->transactionRequest->customer->id);
 
         $setting = $data->transactionRequest->transactionSettings->setting[0];
         $this->assertEquals('testRequest', $setting->settingName);
         $this->assertEquals('false', $setting->settingValue);
+        $this->assertObjectNotHasAttribute('customerIP', $data->transactionRequest, 'should only set IP in shipTo');
         $this->assertObjectNotHasAttribute('trackData', $data->transactionRequest->payment);
         $this->assertObjectNotHasAttribute('retail', $data->transactionRequest);
     }

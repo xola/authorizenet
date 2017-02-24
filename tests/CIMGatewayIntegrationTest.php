@@ -67,24 +67,25 @@ class CIMGatewayIntegrationTest extends TestCase
     {
         // Create a customer profile with the specified email (email is the identifier)
         $email = uniqid('', true) . '@example.com';
-        $cardRef = $this->createCard(array('email' => $email));
+        $this->createCard(array('email' => $email));
 
         // Create a new card in an existing customer profile
+        $card = $this->getValidCard();
         $params = array(
-            'card' => $this->getValidCard(),
+            'card' => $card,
             'name' => 'Kaywinnet Lee Frye',
             'email' => $email,
         );
-        $params['card']['number'] = '4007000000027';
         $request = $this->gateway->createCard($params);
         $request->setDeveloperMode(true);
         $response = $request->send();
         $this->assertTrue($response->isSuccessful(), 'Should be successful as we have created a payment profile');
         $this->assertNotNull($response->getCardReference(), 'Card reference should be returned');
+        $cardRef = $response->getCardReference();
 
         // Create a card with same number in an existing customer profile (should fail)
         $params = array(
-            'card' => $this->getValidCard(),
+            'card' => $card,
             'name' => 'Kaywinnet Lee Frye',
             'email' => $email,
         );
@@ -96,7 +97,7 @@ class CIMGatewayIntegrationTest extends TestCase
 
         // Create a card with the same number in an existing customer profile with auto-update enabled
         $params = array(
-            'card' => $this->getValidCard(),
+            'card' => $card,
             'name' => 'Kaywinnet Lee Frye',
             'email' => $email,
             'forceCardUpdate' => true
