@@ -30,7 +30,6 @@ class CIMAuthorizeRequest extends AIMAuthorizeRequest
 
             return $data;
         }
-
     }
 
     protected function addBillingData(\SimpleXMLElement $data)
@@ -38,8 +37,17 @@ class CIMAuthorizeRequest extends AIMAuthorizeRequest
         if ($this->isCardPresent()) {
             return parent::addBillingData($data);
         } else {
-            // Do nothing since billing information is already part of the customer profile
+            // Billing information is already part of the customer profile, so just add the IP address
+            $this->addCustomerIP($data);
             return $data;
+        }
+    }
+
+    protected function addCustomerIP(\SimpleXMLElement $data)
+    {
+        $ip = $this->getClientIp();
+        if (!empty($ip)) {
+            $data->transactionRequest->customerIP = $ip;
         }
     }
 }
