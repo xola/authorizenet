@@ -28,6 +28,7 @@ class CIMGetProfileResponse extends CIMCreatePaymentProfileResponse
 
         foreach ($this->data['profile']['paymentProfiles'] as $paymentProfile) {
             // For every payment  profile check if the last4 matches the last4 of the card in request.
+            // TODO: In some situations payment attribute is not there. We need to investigate why. See #php7
             if (isset($paymentProfile['payment']['creditCard']['cardNumber'])) {
                 $cardLast4 = substr($paymentProfile['payment']['creditCard']['cardNumber'], -4);
                 if ($last4 == $cardLast4) {
