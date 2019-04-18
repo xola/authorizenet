@@ -34,6 +34,16 @@ class CIMGateway extends AIMGateway
         return $this->getParameter('defaultBillTo');
     }
 
+    public function setValidationMode($validationMode)
+    {
+        return $this->setParameter('validationMode', $validationMode);
+    }
+
+    public function getValidationMode()
+    {
+        return $this->getParameter('validationMode');
+    }
+
     /**
      * Create a new debit or credit card
      *
