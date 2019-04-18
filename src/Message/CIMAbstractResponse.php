@@ -50,7 +50,7 @@ abstract class CIMAbstractResponse extends AbstractResponse
      */
     public function getResultCode()
     {
-        $result = (string)$this->data['messages'][0]['resultCode'];
+        $result = (string)$this->data['messages']['resultCode'];
         switch ($result) {
             case 'Ok':
                 return 1;
@@ -73,9 +73,8 @@ abstract class CIMAbstractResponse extends AbstractResponse
 
         if (isset($this->data['messages'])) {
             // In case of a successful transaction, a "messages" element is present
-            $code = (string)$this->data['messages'][0]['message'][0]['code'];
+            $code = (string)$this->data['messages']['message']['code'];
         }
-
         return $code;
     }
 
@@ -105,8 +104,7 @@ abstract class CIMAbstractResponse extends AbstractResponse
 
         if (isset($this->data['messages'])) {
             // In case of a successful transaction, a "messages" element is present
-            $message = (string)$this->data['messages'][0]['message'][0]['text'];
-
+            $message = (string)$this->data['messages']['message']['text'];
         }
 
         return $message;
@@ -137,18 +135,7 @@ abstract class CIMAbstractResponse extends AbstractResponse
      */
     public function xml2array(\SimpleXMLElement $xml)
     {
-        $arr = array();
-        foreach ($xml as $element) {
-            $tag = $element->getName();
-            $e = get_object_vars($element);
-            if (!empty($e)) {
-                $arr[$tag][] = $element instanceof \SimpleXMLElement ? $this->xml2array($element) : $e;
-            } else {
-                $arr[$tag] = trim($element);
-            }
-        }
-
-        return $arr;
+        return json_decode(json_encode($xml), true);
     }
 
     public function getCustomerProfileId()

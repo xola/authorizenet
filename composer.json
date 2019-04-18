@@ -28,7 +28,9 @@
         "psr-4": { "Omnipay\\AuthorizeNet\\" : "src/" }
     },
     "require": {
-        "omnipay/common": "~2.5"
+        "omnipay/common": "~2.5",
+        "ext-json": "*",
+        "ext-simplexml": "*"
     },
     "require-dev": {
         "omnipay/tests": "~2.0"
