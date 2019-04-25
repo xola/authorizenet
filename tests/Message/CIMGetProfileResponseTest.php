@@ -14,13 +14,22 @@ class CIMGetProfileResponseTest extends TestCase
         new CIMGetProfileResponse($this->getMockRequest(), '');
     }
 
-    public function testGetMatchingPaymentProfileId()
+    public function testGetMultipleMatchingPaymentProfileId()
     {
-        $httpResponse = $this->getMockHttpResponse('CIMGetProfileSuccess.txt');
+        $httpResponse = $this->getMockHttpResponse('CIMGetMultipleProfilesSuccess.txt');
         $response = new CIMGetProfileResponse($this->getMockRequest(), $httpResponse->getBody());
 
         $this->assertEquals('26455656', $response->getMatchingPaymentProfileId('1111'));
         $this->assertEquals('26455709', $response->getMatchingPaymentProfileId('8888'));
+        $this->assertNull($response->getMatchingPaymentProfileId('8889'));
+    }
+
+    public function testGetSingleMatchingPaymentProfileId()
+    {
+        $httpResponse = $this->getMockHttpResponse('CIMGetSingleProfileSuccess.txt');
+        $response = new CIMGetProfileResponse($this->getMockRequest(), $httpResponse->getBody());
+
+        $this->assertEquals('26455656', $response->getMatchingPaymentProfileId('1111'));
         $this->assertNull($response->getMatchingPaymentProfileId('8889'));
     }
 }
