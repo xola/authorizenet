@@ -52,7 +52,10 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
         /** @var mixed $req */
         $req = $data->transactionRequest;
 
-        $description = $this->getDescription();
+        $description = trim($this->getDescription());
+        if (strlen($description) > 255) {
+            $description = substr($description, 0, 255);
+        }
         if (!empty($description)) {
             $req->order->description = $description;
         }
