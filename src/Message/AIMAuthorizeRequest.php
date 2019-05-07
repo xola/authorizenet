@@ -54,8 +54,8 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
         $req = $data->transactionRequest;
 
         $description = trim($this->getDescription());
-        if (strlen($description) > AIMAuthorizeRequest::MAX_DESCRIPTION_LENGTH) {
-            $description = substr($description, 0, AIMAuthorizeRequest::MAX_DESCRIPTION_LENGTH);
+        if (strlen($description) > self::MAX_DESCRIPTION_LENGTH) {
+            $description = substr($description, 0, self::MAX_DESCRIPTION_LENGTH);
         }
         if (!empty($description)) {
             $req->order->description = $description;
