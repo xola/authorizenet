@@ -9,6 +9,7 @@ use Omnipay\Common\CreditCard;
  */
 class AIMAuthorizeRequest extends AIMAbstractRequest
 {
+    const MAX_DESCRIPTION_LENGTH = 255;
     protected $action = 'authOnlyTransaction';
 
     public function getData()
@@ -51,11 +52,10 @@ class AIMAuthorizeRequest extends AIMAbstractRequest
     {
         /** @var mixed $req */
         $req = $data->transactionRequest;
-        $descriptionLengthLimit = 255;
 
         $description = trim($this->getDescription());
-        if (strlen($description) > $descriptionLengthLimit) {
-            $description = substr($description, 0, $descriptionLengthLimit);
+        if (strlen($description) > AIMAuthorizeRequest::MAX_DESCRIPTION_LENGTH) {
+            $description = substr($description, 0, AIMAuthorizeRequest::MAX_DESCRIPTION_LENGTH);
         }
         if (!empty($description)) {
             $req->order->description = $description;
