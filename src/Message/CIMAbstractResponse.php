@@ -58,7 +58,6 @@ abstract class CIMAbstractResponse extends AbstractResponse
                 return 3;
             default:
                 return null;
-
         }
     }
 
