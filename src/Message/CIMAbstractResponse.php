@@ -19,7 +19,7 @@ abstract class CIMAbstractResponse extends AbstractResponse
         // Check if this is an error response
         $isError = strpos((string)$data, '<ErrorResponse');
 
-        $xmlRootElement = $isError !== false ? 'ErrorResponse' : $this->responseType;
+        $xmlRootElement = ($isError !== false ? 'ErrorResponse' : $this->responseType);
         // Strip out the xmlns junk so that PHP can parse the XML
         $xml = preg_replace('/<' . $xmlRootElement . '[^>]+>/', '<' . $xmlRootElement . '>', (string)$data);
 
@@ -125,8 +125,6 @@ abstract class CIMAbstractResponse extends AbstractResponse
     }
 
     /**
-     * http://bookofzeus.com/articles/convert-simplexml-object-into-php-array/
-     *
      * Convert a simpleXMLElement in to an array
      *
      * @param \SimpleXMLElement $xml
