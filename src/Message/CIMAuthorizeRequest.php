@@ -14,7 +14,6 @@ class CIMAuthorizeRequest extends AIMAuthorizeRequest
         if ($this->isCardPresent()) {
             // Prefer the track data if present over the payment profile (better rate)
             return parent::addPayment($data);
-
         } else {
             $this->validate('cardReference');
 

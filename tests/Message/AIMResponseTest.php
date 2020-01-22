@@ -18,7 +18,7 @@ class AIMResponseTest extends TestCase
 
     public function testConstructEmpty()
     {
-        $this->setExpectedException('\Omnipay\Common\Exception\InvalidResponseException');
+        $this->expectException('\Omnipay\Common\Exception\InvalidResponseException');
         new AIMResponse($this->getMockRequest(), '');
     }
 

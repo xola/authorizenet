@@ -48,7 +48,7 @@ class AIMResponse extends AbstractResponse
      */
     public function getResultCode()
     {
-        return intval((string)$this->data->transactionResponse[0]->responseCode);
+        return intval((string)$this->data->transactionResponse->responseCode);
     }
 
     /**
@@ -60,13 +60,12 @@ class AIMResponse extends AbstractResponse
     {
         $code = null;
 
-        if (isset($this->data->transactionResponse[0]->messages)) {
+        if (isset($this->data->transactionResponse->messages)) {
             // In case of a successful transaction, a "messages" element is present
-            $code = intval((string)$this->data->transactionResponse[0]->messages[0]->message[0]->code);
-
-        } elseif (isset($this->data->transactionResponse[0]->errors)) {
+            $code = intval((string)$this->data->transactionResponse->messages->message->code);
+        } elseif (isset($this->data->transactionResponse->errors)) {
             // In case of an unsuccessful transaction, an "errors" element is present
-            $code = intval((string)$this->data->transactionResponse[0]->errors[0]->error[0]->errorCode);
+            $code = intval((string)$this->data->transactionResponse->errors->error->errorCode);
         }
 
         return $code;
@@ -81,13 +80,12 @@ class AIMResponse extends AbstractResponse
     {
         $message = null;
 
-        if (isset($this->data->transactionResponse[0]->messages)) {
+        if (isset($this->data->transactionResponse->messages)) {
             // In case of a successful transaction, a "messages" element is present
-            $message = (string)$this->data->transactionResponse[0]->messages[0]->message[0]->description;
-
-        } elseif (isset($this->data->transactionResponse[0]->errors)) {
+            $message = (string)$this->data->transactionResponse->messages->message->description;
+        } elseif (isset($this->data->transactionResponse->errors)) {
             // In case of an unsuccessful transaction, an "errors" element is present
-            $message = (string)$this->data->transactionResponse[0]->errors[0]->error[0]->errorText;
+            $message = (string)$this->data->transactionResponse->errors->error->errorText;
         }
 
         return $message;
@@ -95,7 +93,7 @@ class AIMResponse extends AbstractResponse
 
     public function getAuthorizationCode()
     {
-        return (string)$this->data->transactionResponse[0]->authCode;
+        return (string)$this->data->transactionResponse->authCode;
     }
 
     /**
@@ -105,7 +103,7 @@ class AIMResponse extends AbstractResponse
      */
     public function getAVSCode()
     {
-        return (string)$this->data->transactionResponse[0]->avsResultCode;
+        return (string)$this->data->transactionResponse->avsResultCode;
     }
 
     /**
@@ -118,7 +116,7 @@ class AIMResponse extends AbstractResponse
     public function getTransactionReference($serialize = true)
     {
         if ($this->isSuccessful()) {
-            $body = $this->data->transactionResponse[0];
+            $body = $this->data->transactionResponse;
             $transactionRef = new TransactionReference();
             $transactionRef->setApprovalCode((string)$body->authCode);
             $transactionRef->setTransId((string)$body->transId);
