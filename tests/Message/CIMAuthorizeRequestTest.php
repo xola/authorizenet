@@ -68,4 +68,20 @@ class CIMAuthorizeRequestTest extends TestCase
         $this->assertObjectNotHasAttribute('customerIP', $data->transactionRequest, 'should not set IP for card present');
         $this->assertObjectHasAttribute('trackData', $data->transactionRequest->payment);
     }
+
+    public function testShouldAddPaymentIfRawCard()
+    {
+        $card = $this->getValidCard();
+        $this->request->initialize(array(
+            'card' => $card,
+            'amount' => 21.00
+        ));
+
+        $data = $this->request->getData();
+
+        $this->assertObjectNotHasAttribute('profile', $data->transactionRequest);
+        $this->assertObjectHasAttribute('cardNumber', $data->transactionRequest->payment->creditCard);
+        $this->assertObjectHasAttribute('expirationDate', $data->transactionRequest->payment->creditCard);
+        $this->assertObjectHasAttribute('cardCode', $data->transactionRequest->payment->creditCard);
+    }
 }
