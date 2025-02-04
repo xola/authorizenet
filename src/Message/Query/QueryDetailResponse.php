@@ -235,4 +235,9 @@ class QueryDetailResponse extends AbstractQueryResponse
     {
         return $this->transaction['submitTimeUTC'];
     }
+
+    public function getTransaction()
+    {
+        return $this->transaction;
+    }
 }
